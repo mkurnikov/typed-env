@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
 
+
 try:
     import pypandoc
     long_description = pypandoc.convert('README.md', 'rst')
@@ -11,7 +12,7 @@ requirements = []
 
 test_requirements = [
     'twine==1.7.4',
-    'pandoc==1.0.0b2',
+    'pypandoc==1.2.0',
     'bumpversion==0.5.3'
 ]
 
