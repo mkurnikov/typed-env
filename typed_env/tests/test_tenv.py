@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-import tenv
-from tests.test_read_dot_env import existing_file
+import typed_env
+from typed_env.tests.test_read_dot_env import existing_file
 
 
 class TestEnvironDictCasts(TestCase):
@@ -14,7 +14,7 @@ HEIGHT=0.12
 PORTS=122,124,12
         """
         with existing_file('1.txt', contents) as fname:
-            self.env = tenv.initialize_env(env_file=fname)
+            self.env = typed_env.initialize_env(env_file=fname)
 
     def test_plain_string(self):
         self.assertEqual(self.env.get('DEBUG'), 'True')

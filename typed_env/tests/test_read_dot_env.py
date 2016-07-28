@@ -1,7 +1,7 @@
 from unittest import TestCase
 import os
 
-from tenv._read_dot_env import read_file_values
+from typed_env._read_dot_env import read_file_values
 
 import contextlib
 @contextlib.contextmanager
