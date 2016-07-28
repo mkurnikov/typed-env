@@ -1,20 +1,25 @@
 #!/usr/bin/env python
+from setuptools import setup, find_packages
 
 try:
-    from setuptools import setup, find_packages
+    import pypandoc
+    long_description = pypandoc.convert('README.md', 'rst')
 except ImportError:
-    from distutils.core import setup
+    long_description = open('README.md').read()
 
 requirements = []
 
 test_requirements = [
-    'twine==1.7.4'
+    'twine==1.7.4',
+    'pandoc==1.0.0b2',
+    'bumpversion==0.5.3'
 ]
 
 setup(
     name='typed-env',
     version='0.1.1',
     description="Fast-fail environment variable library.",
+    long_description=long_description,
     author="Maxim Kurnikov",
     author_email='maxim.kurnikov@gmail.com',
     url='https://github.com/mkurnikov/typed-env',
