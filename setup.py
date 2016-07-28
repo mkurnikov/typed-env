@@ -18,7 +18,7 @@ test_requirements = [
 
 setup(
     name='typed-env',
-    version='0.1.2',
+    version='0.1.3',
     description="Fast-fail environment variable library.",
     long_description=long_description,
     author="Maxim Kurnikov",
