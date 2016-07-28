@@ -1,45 +1,26 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 
 try:
-    from setuptools import setup
+    from setuptools import setup, find_packages
 except ImportError:
     from distutils.core import setup
 
-
-with open('README.rst') as readme_file:
-    readme = readme_file.read()
-
-requirements = [
-    # TODO: put package requirements here
-]
+requirements = []
 
 test_requirements = [
-    # TODO: put package test requirements here
+    'twine==1.7.4'
 ]
 
 setup(
-    name='tenv',
-    version='0.1.0',
-    description="tenv - Typed Environment Variables",
+    name='typed-env',
+    version='0.1.1',
+    description="Fast-fail environment variable library.",
     author="Maxim Kurnikov",
     author_email='maxim.kurnikov@gmail.com',
-    url='https://github.com/mkurnikov/tenv',
-    packages=['tenv'],
-    package_dir={'tenv': 'tenv'},
-    include_package_data=True,
+    url='https://github.com/mkurnikov/typed-env',
+    license="MIT",
+
     install_requires=requirements,
-    license="ISCL",
-    zip_safe=False,
-    keywords='tenv',
-    classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: ISC License (ISCL)',
-        'Natural Language :: English',
-        'Programming Language :: Python :: 3.5',
-    ],
-    test_suite='tests',
-    tests_require=test_requirements
+    tests_require=test_requirements,
+    packages=find_packages(exclude=['typed_env.tests'])
 )
