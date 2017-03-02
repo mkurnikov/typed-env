@@ -4,8 +4,14 @@ from __future__ import print_function, absolute_import, unicode_literals, divisi
 import warnings
 from typing import Any, Dict, List, Union
 
+import validators
+
 
 class ImproperlyConfiguredError(Exception):
+    pass
+
+
+class VariableTypeError(Exception):
     pass
 
 
@@ -45,7 +51,7 @@ class BaseEnvironment(object):
 
 
 class Environment(BaseEnvironment):
-    def getbool(self, var, default=NOTSET):
+    def get_bool(self, var, default=NOTSET):
         # type: (str, Union[bool, NotSetType]) -> bool
         # will fail, if default=Notset, and no such variable in env.
         value = super(Environment, self).get(var, default=default)
@@ -56,7 +62,7 @@ class Environment(BaseEnvironment):
         
         return value.lower() in TRUE_VALUES
     
-    def getint(self, var, default=NOTSET):
+    def get_int(self, var, default=NOTSET):
         # type: (str, Union[int, NotSetType]) -> int
         value = super(Environment, self).get(var, default=default)
         
@@ -69,7 +75,7 @@ class Environment(BaseEnvironment):
         
         return int(value)
     
-    def getfloat(self, var, default=NOTSET):
+    def get_float(self, var, default=NOTSET):
         # type: (str, Union[float, NotSetType]) -> float
         value = self.get(var, default=default)
         
@@ -78,7 +84,7 @@ class Environment(BaseEnvironment):
         
         return float(value)
     
-    def getlist(self, var, default=NOTSET):
+    def get_list(self, var, default=NOTSET):
         # type: (str, Union[List[Any], NotSetType]) -> List[Any]
         value = self.get(var, default=default)
         
@@ -86,3 +92,37 @@ class Environment(BaseEnvironment):
             return value
         
         return list(value.split(','))
+    
+    def get_public_url(self, var, default=NOTSET):
+        # type: (str, Union[str, NotSetType]) -> str
+        value = self.get(var, default=default)
+        
+        if value == default:
+            return value
+        
+        if not validators.url(value):
+            raise VariableTypeError('Environment variable {var} with value {val} could not be converted into URL.'
+                                    .format(var=var, val=value))
+        return value
+    
+    def get_ip(self, var, default=NOTSET):
+        # type: (str, Union[str, NotSetType]) -> str
+        value = self.get(var, default=default)
+        
+        if value == default:
+            return value
+        
+        if not (validators.ipv4(value) or validators.ipv6(value)):
+            raise VariableTypeError('Environment variable {var} with value {val} could not be converted into ipv4/ipv6.'
+                        .format(var=var, val=value))
+        
+        return value
+
+    
+    
+    
+    
+    
+    
+    
+    
