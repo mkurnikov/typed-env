@@ -1,16 +1,21 @@
-from unittest import TestCase
-import os
-
-from typed_env._read_dot_env import read_file_values
+# -*- coding: utf-8 -*-
+from __future__ import print_function, absolute_import, unicode_literals, division
 
 import contextlib
+import os
+from unittest import TestCase
+
+from typed_env.read_dot_env import read_file_values
+
+
 @contextlib.contextmanager
 def existing_file(fname, contents):
     with open('1.txt', 'w') as f:
         f.write(contents.strip())
-
+    
     yield fname
     os.remove(fname)
+
 
 class TestReadDotFile(TestCase):
     def test_read_correct_file(self):
@@ -20,22 +25,22 @@ DEBUG2=False
         """
         with existing_file('1.txt', contents) as fname:
             env = read_file_values(fname)
-
+        
         self.assertEqual(env['DEBUG'], 'True')
         self.assertEqual(env['DEBUG2'], 'False')
-
+    
     def test_read_empty_file(self):
         contents = ""
         with existing_file('1.txt', contents) as fname:
             env = read_file_values(fname)
-
+        
         self.assertEqual(len(env), 0)
-
+    
     def test_fail_on_invalid_file(self):
         contents = "DEBUG DEBUG=False"
-
+        
         with existing_file('1.txt', contents) as fname:
             env = read_file_values(fname, fail_silently=False)
-
+        
         self.assertTrue('DEBUG' not in env)
         self.assertEqual(len(env), 0)

@@ -1,1 +1,1 @@
-from ._initialize import initialize_env
+from .initialize import initialize_env

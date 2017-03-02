@@ -1,10 +1,13 @@
+# -*- coding: utf-8 -*-
+from __future__ import print_function, absolute_import, unicode_literals, division
+
 import re
 import logging
 
 
 def read_file_values(env_file, fail_silently=True):
     """
-    Borrowed from Honcho
+    Borrowed from Honcho.
     """
     env_data = {}
     try:
