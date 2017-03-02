@@ -101,7 +101,9 @@ class Environment(BaseEnvironment):
             return value
         
         if not validators.url(value):
-            raise VariableTypeError('Environment variable {var} with value {val} could not be converted into URL.'
+            raise VariableTypeError('Environment variable {var} with value {val} could not be converted into URL. '
+                                    'Beware that url validation is not perfect in this package, and there are a lot '
+                                    'of false positives. You should try using simple get() instead.'
                                     .format(var=var, val=value))
         return value
     
@@ -114,15 +116,30 @@ class Environment(BaseEnvironment):
         
         if not (validators.ipv4(value) or validators.ipv6(value)):
             raise VariableTypeError('Environment variable {var} with value {val} could not be converted into ipv4/ipv6.'
-                        .format(var=var, val=value))
+                                    .format(var=var, val=value))
         
         return value
+    
+    def get_domain(self, var, default=NOTSET):
+        # type: (str, Union[str, NotSetType]) -> str
+        value = self.get(var, default=default)
+        
+        if value == default:
+            return value
+        
+        if not (validators.ipv4(value) or validators.ipv6(value) or validators.domain(value)):
+            raise VariableTypeError('Environment variable {var} with value {val} is not a valid hostname.'
+                                    .format(var=var, val=value))
+        return value
+        
+    def get_port(self, var, default=NOTSET):
+        # type: (str, Union[int, NotSetType]) -> int
+        value = self.get_int(var, default=default)
+        
+        if value == default:
+            return value
+        
+        if not validators.between(value, min=0, max=65535):
+            raise VariableTypeError('Environment variable {var} with value {val} is not a valid port.')
 
-    
-    
-    
-    
-    
-    
-    
-    
+        return value

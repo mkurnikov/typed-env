@@ -21,6 +21,11 @@ INVALID_URL=123
 IP=10.0.0.1
 IP_V6=abcd:ef::42:1
 INVALID_IP=.0.0
+HOST=google.com
+HOST2=10.0.0.1
+PORT=1
+INV_PORT=-1
+INV_PORT2=100000
         """
         with existing_file('1.txt', contents) as fname:
             self.env = typed_env.initialize_env(env_file=fname)
@@ -55,7 +60,17 @@ INVALID_IP=.0.0
         with self.assertRaises(VariableTypeError):
             self.env.get_ip('INVALID_IP')
             
+    def test_domain(self):
+        self.assertEqual(self.env.get_domain('HOST'), 'google.com')
+        self.assertEqual(self.env.get_domain('HOST2'), '10.0.0.1')
     
+    def test_port(self):
+        self.assertEqual(self.env.get_port('PORT'), 1)
+        
+        with self.assertRaises(VariableTypeError):
+            self.env.get_port('INV_PORT')
+        with self.assertRaises(VariableTypeError):
+            self.env.get_port('INV_PORT2')
     
     
     
