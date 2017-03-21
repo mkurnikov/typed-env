@@ -41,7 +41,7 @@ class BaseEnvironment(object):
         value = self.env_dict.get(var)
         if value is None:
             if default is NOTSET:
-                error_msg = "Environment variable '{}' not set.".format(var)
+                error_msg = "Environment variable '{}' is not set.".format(var)
                 raise ImproperlyConfiguredError(error_msg)
             else:
                 value = default
