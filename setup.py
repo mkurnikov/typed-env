@@ -8,7 +8,9 @@ try:
 except ImportError:
     long_description = open('README.md').read()
 
-requirements = []
+requirements = [
+    'validators'
+]
 
 test_requirements = [
     'twine==1.7.4',
